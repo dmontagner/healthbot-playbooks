@@ -33,7 +33,7 @@
 # Configuration required in the router
 
 ```
-dmontagner@pss1> show configuration services analytics
+user@router> show configuration services analytics
 streaming-server <HEALTHBOT_SERVER> {
     remote-address <HEALTHBOT_SERVER>;
     remote-port <JTI_NATIVE_PORT_CONFIGURED_IN_HEALTHBOT>;
