@@ -29,3 +29,25 @@
 
 11- Execute `request iceberg deploy`
 
+
+# Configuration required in the router
+
+```
+dmontagner@pss1> show configuration services analytics
+streaming-server <HEALTHBOT_SERVER> {
+    remote-address <HEALTHBOT_SERVER>;
+    remote-port <JTI_NATIVE_PORT_CONFIGURED_IN_HEALTHBOT>;
+}
+export-profile <PROFILE_NAME> {
+    local-address <LOCAL_ADDRESS_OF_A_REVENUE_PORT_TOWARDS_HEALTHBOT_SERVER>;
+    local-port <JTI_NATIVE_PORT_CONFIGURED_IN_HEALTHBOT>;
+    reporting-rate 2;
+    format gpb;
+    transport udp;
+}
+sensor firewall-tbt {
+    server-name <HEALTHBOT_SERVER>;
+    export-name <PROFILE_NAME>;
+    resource /junos/system/linecard/firewall/;
+}
+```
