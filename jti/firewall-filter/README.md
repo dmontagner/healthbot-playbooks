@@ -19,11 +19,11 @@
 
 6- Paste the rule configuration
 
-7- Press <ENTER>
+7- Press `<ENTER>`
 
 8- Paste the playbook configuration
 
-9- Press <Control-D>
+9- Press `<Control-D>`
 
 10- Execute `commit and-quit`
 
