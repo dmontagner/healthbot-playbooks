@@ -1,0 +1,6 @@
+iceberg {
+    playbook fw-ct-tbt {
+        rules external/fw-filter-tbt;
+        synopsis "Firewall filter counters troubleshooting";
+    }
+}
