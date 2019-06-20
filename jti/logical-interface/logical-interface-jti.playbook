@@ -1,0 +1,7 @@
+iceberg {
+    playbook ifl-jti-stats {
+        rules external/ifl-jti-stats;
+        description "Logical interface status via JTI telemetry";
+        synopsis "Logical interface status via JTI telemetry";
+    }
+}
