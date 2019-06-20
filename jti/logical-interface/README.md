@@ -1,7 +1,9 @@
 # How to install (option #1)
 
 1- Upload `interface-bytes-to-bps.py` to `/var/local/healthbot/input`
+
 2- Load the rule file via import rule in the HealthBot UI
+
 3- Load the playbook file via import playbook in the HealthBot UI
 
 
