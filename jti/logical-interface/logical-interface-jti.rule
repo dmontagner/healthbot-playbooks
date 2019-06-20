@@ -1,0 +1,99 @@
+iceberg {
+    topic external {
+        rule ifl-jti-stats {
+            keys if_name;
+            rule-frequency 2s;
+            function convert_bytes_to_bps {
+                description "Calculate the bits per second (uses delta between current and previous packets)";
+                path interface-bytes-to-bps.py;
+                method interface_bytes_to_bps;
+                argument bytes_counter {
+                    mandatory;
+                }
+                argument direction {
+                    mandatory;
+                }
+                argument index_name {
+                    mandatory;
+                }
+            }
+            sensor ifl_jti_stats_sensor {
+                native-gpb {
+                    sensor-name jnprLogicalInterfaceExt;
+                    port 60000; ## Warning: 'port' is deprecated
+                }
+            }
+            field if_egress_bps {
+                formula {
+                    user-defined-function {
+                        function-name convert_bytes_to_bps;
+                        argument index_name "$if_name";
+                        argument bytes_counter "$if_egress_octets";
+                        argument direction egress;
+                    }
+                }
+                type integer;
+                description "Logical interface egress bits per second rate";
+            }
+            field if_egress_octets {
+                sensor ifl_jti_stats_sensor {
+                    path interface_info.egress_stats.if_octets;
+                }
+                type integer;
+                description "Logical interface egress octets";
+            }
+            field if_ingress_bps {
+                formula {
+                    user-defined-function {
+                        function-name convert_bytes_to_bps;
+                        argument index_name "$if_name";
+                        argument bytes_counter "$if_ingress_octets";
+                        argument direction ingress;
+                    }
+                }
+                type integer;
+                description "Logical interface ingress bits per second rate";
+            }
+            field if_ingress_octets {
+                sensor ifl_jti_stats_sensor {
+                    path interface_info.ingress_stats.if_octets;
+                }
+                type integer;
+                description "Logical interface ingress octets";
+            }
+            field if_name {
+                sensor ifl_jti_stats_sensor {
+                    path interface_info.if_name;
+                }
+                type string;
+                description "Logical interface name";
+            }
+            rule-properties {
+                version 1;
+                contributor external;
+                author "dmontagner@juniper.net";
+                date 2019/01/06;
+                supported-healthbot-version 2.0.0;
+                supported-devices {
+                    juniper {
+                        operating-system junos {
+                            products MX {
+                                releases 16.1 {
+                                    release-support min-supported-release;
+                                    platform MX;
+                                }
+                            }
+                            products PTX;
+                            products QFX10k {
+                                releases 18.4 {
+                                    release-support min-supported-release;
+                                    platform QFX10k;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
